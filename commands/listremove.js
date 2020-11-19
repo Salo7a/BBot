@@ -22,13 +22,15 @@ module.exports = {
     const { channel } = message.member.voice;
     const videoPattern = /^(https?:\/\/)?(www\.)?(m\.)?(youtube\.com|youtu\.?be)\/.+$/;
     const scRegex = /^https?:\/\/(soundcloud\.com)\/(.*)$/;
-    let list = await FindOrCreate(args[0]);
-    if (!list ) return message.reply("Playlist Doesn't Exist And Couldn't Be Created").catch(console.error);
+    let list = await findPlaylist(args[0]);
+    if (!list ) return message.reply("The Playlist Doesn't Exist").catch(console.error);
     // Start the playlist if playlist url was provided
     let num = 0;
     for (let i = 1; i < args.length; i++) {
       if (args[i] <= args.length){
         list.Songs.splice(args[i]+1, 1);
+        list.SongsNames.splice(args[i]+1, 1);
+        list.SongsDuration.splice(args[i]+1, 1);
         num++;
       }else {
         message.reply(`No song at index ${args[i]}`)

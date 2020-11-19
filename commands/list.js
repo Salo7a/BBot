@@ -17,10 +17,10 @@ let list = {
   "Spacetoon": ["https://soundcloud.com/3lamona/hunter","https://www.youtube.com/watch?v=aVps7M4DH4s", "https://www.youtube.com/watch?v=0fKox9_pGK8"]
 }
 module.exports = {
-  name: "Saved Playlist",
+  name: "SavedPlaylist",
   cooldown: 3,
-  aliases: ["playlist"],
-  description: "Plays audio from YouTube or Soundcloud",
+  aliases: ["list"],
+  description: "Plays audio from a Saved Playlist",
   async execute(message, args) {
     const { channel } = message.member.voice;
 
@@ -47,7 +47,7 @@ module.exports = {
 
     if (!list.hasOwnProperty(args[0]) ) return message.reply("Playlist Doesn't Exist").catch(console.error);
     // Start the playlist if playlist url was provided
-    for (let s in list[args[0]]){
+    for (let s in list["Spacetoon"]){
       const url = s;
       const urlValid = videoPattern.test(s);
       const queueConstruct = {

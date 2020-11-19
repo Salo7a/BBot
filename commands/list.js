@@ -47,7 +47,7 @@ module.exports = {
 
     if (!list.hasOwnProperty(args[0]) ) return message.reply("Playlist Doesn't Exist").catch(console.error);
     // Start the playlist if playlist url was provided
-    for (let s in list["Spacetoon"]){
+    for (const s of list[args[0]]) {
       const url = s;
       const urlValid = videoPattern.test(s);
       const queueConstruct = {
@@ -73,7 +73,7 @@ module.exports = {
           };
         } catch (error) {
           console.error(error);
-          return message.reply(error.message).catch(console.error);
+          message.reply(error.message).catch(console.error);
         }
       } else if (scRegex.test(url)) {
         try {
@@ -85,15 +85,15 @@ module.exports = {
           };
         } catch (error) {
           console.error(error);
-          return message.reply(error.message).catch(console.error);
+          message.reply(error.message).catch(console.error);
         }
       } else {
-        return message.reply(`Incorrect URL ${s}`).catch(console.error);
+        message.reply(`Incorrect URL ${s}`).catch(console.error);
       }
 
       if (serverQueue) {
         serverQueue.songs.push(song);
-        return serverQueue.textChannel
+        serverQueue.textChannel
           .send(`✅ **${song.title}** has been added to the queue by ${message.author}`)
           .catch(console.error);
       }
@@ -109,7 +109,7 @@ module.exports = {
         console.error(error);
         message.client.queue.delete(message.guild.id);
         await channel.leave();
-        return message.channel.send(`Could not join the channel: ${error}`).catch(console.error);
+        message.channel.send(`Could not join the channel: ${error}`).catch(console.error);
       }
     }
 

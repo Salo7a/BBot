@@ -19,11 +19,10 @@ module.exports = {
   aliases: ["listview"],
   description: "Remove Songs From A Custom Playlist",
   async execute(message, args) {
-    const { channel } = message.member.channel;
     const videoPattern = /^(https?:\/\/)?(www\.)?(m\.)?(youtube\.com|youtu\.?be)\/.+$/;
     const scRegex = /^https?:\/\/(soundcloud\.com)\/(.*)$/;
     if (args[0]){
-      let list = await FindOrCreate(args[0]);
+      let list = await findPlaylist(args[0]);
       if (!list ) return message.reply("Couldn't Get Playlist").catch(console.error);
       const embed = new MessageEmbed()
         .setTitle(`${list.Name} Playlist`)
@@ -32,9 +31,10 @@ module.exports = {
         .setTimestamp();
       // Start the playlist if playlist url was provided
       for (let i = 0; i < list.Songs.length; i++) {
+        console.log(`${args[0]} ${i + 1} - ${list.SongsNames[i]}`)
         embed.addField(`${i+1} - ${list.SongsNames[i]}`, list.SongsDuration[i])
       }
-      return message.reply("Couldn't Get Playlist").catch(console.error);
+      message.channel.send(embed);
     } else {
       const embed = new MessageEmbed()
         .setTitle(`All Playlists`)
@@ -45,6 +45,7 @@ module.exports = {
       for (let list of lists){
         embed.addField(list.Name, `${list.Songs.length} Songs`)
       }
+      message.channel.send(embed);
     }
   }
 };

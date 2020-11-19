@@ -2,19 +2,26 @@ const { play } = require("../include/play");
 const ytdl = require("ytdl-core");
 const YouTubeAPI = require("simple-youtube-api");
 const scdl = require("soundcloud-downloader");
-
-let YOUTUBE_API_KEY, SOUNDCLOUD_CLIENT_ID;
+const mongoose = require('mongoose')
+const PlaylistSchema = require('../include/PlaylistSchema')
+const Playlist = mongoose.model('Playlist', PlaylistSchema, 'Playlist')
+const {findPlaylist, FindOrCreate} = require("../include/PlaylistFunctions")
+let YOUTUBE_API_KEY, SOUNDCLOUD_CLIENT_ID,connectionString;
 try {
   const config = require("../config.json");
   YOUTUBE_API_KEY = config.YOUTUBE_API_KEY;
   SOUNDCLOUD_CLIENT_ID = config.SOUNDCLOUD_CLIENT_ID;
+  connectionString = config.connectionString;
 } catch (error) {
   YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
   SOUNDCLOUD_CLIENT_ID = process.env.SOUNDCLOUD_CLIENT_ID;
+  connectionString = process.env.connectionString;
 }
+const connector = mongoose.connect(connectionString, {useNewUrlParser: true, useUnifiedTopology: true })
 const youtube = new YouTubeAPI(YOUTUBE_API_KEY);
 let list = {
-  "Spacetoon": ["https://soundcloud.com/3lamona/hunter","https://www.youtube.com/watch?v=aVps7M4DH4s", "https://www.youtube.com/watch?v=0fKox9_pGK8"]
+  "Spacetoon": ["https://soundcloud.com/3lamona/hunter","https://www.youtube.com/watch?v=aVps7M4DH4s",
+    "https://soundcloud.com/maram-adel/spacetoon-2?in=maram-adel/sets/spacetoon-3", "https://www.youtube.com/watch?v=kBVvE3plipk"]
 }
 module.exports = {
   name: "SavedPlaylist",
@@ -23,8 +30,7 @@ module.exports = {
   description: "Plays audio from a Saved Playlist",
   async execute(message, args) {
     const { channel } = message.member.voice;
-
-    const serverQueue = message.client.queue.get(message.guild.id);
+    let serverQueue = message.client.queue.get(message.guild.id);
     if (!channel) return message.reply("You need to join a voice channel first!").catch(console.error);
     if (serverQueue && channel !== message.guild.me.voice.channel)
       return message.reply(`You must be in the same channel as ${message.client.user}`).catch(console.error);
@@ -41,29 +47,27 @@ module.exports = {
       return message.reply("I cannot speak in this voice channel, make sure I have the proper permissions!");
 
     const search = args.join(" ");
-    const videoPattern = /^(https?:\/\/)?(www\.)?(m\.)?(youtube\.com|youtu\.?be)\/.+$/gi;
+    const videoPattern = /^(https?:\/\/)?(www\.)?(m\.)?(youtube\.com|youtu\.?be)\/.+$/;
     const scRegex = /^https?:\/\/(soundcloud\.com)\/(.*)$/;
-
-
-    if (!list.hasOwnProperty(args[0]) ) return message.reply("Playlist Doesn't Exist").catch(console.error);
+    let list = await findPlaylist(args[0]);
+    if (!list ) return message.reply("Playlist Doesn't Exist").catch(console.error);
     // Start the playlist if playlist url was provided
-    for (const s of list[args[0]]) {
-      const url = s;
-      const urlValid = videoPattern.test(s);
-      const queueConstruct = {
-        textChannel: message.channel,
-        channel,
-        connection: null,
-        songs: [],
-        loop: false,
-        volume: 100,
-        playing: true
-      };
+    const queueConstruct = {
+      textChannel: message.channel,
+      channel,
+      connection: null,
+      songs: [],
+      loop: false,
+      volume: 100,
+      playing: true
+    };
+    for (const s of list.Songs) {
+      let url = s;
 
       let songInfo = null;
       let song = null;
 
-      if (urlValid) {
+      if (videoPattern.test(url)) {
         try {
           songInfo = await ytdl.getInfo(url);
           song = {
@@ -88,30 +92,31 @@ module.exports = {
           message.reply(error.message).catch(console.error);
         }
       } else {
-        message.reply(`Incorrect URL ${s}`).catch(console.error);
+         return message.reply(`Incorrect URL ${s}`).catch(console.error);
+      }
+      serverQueue = await message.client.queue.get(message.guild.id);
+      if (serverQueue && serverQueue.songs.length !== 0){
+      serverQueue.songs.push(song);
+      serverQueue.textChannel
+        .send(`✅ **${song.title}** has been added to the queue`)
+        .catch(console.error);
+    } else {
+        message.reply(`✅ **${song.title}** has been added to the queue`).catch(console.error);
+        queueConstruct.songs.push(song);
+        message.client.queue.set(message.guild.id, queueConstruct);
       }
 
-      if (serverQueue) {
-        serverQueue.songs.push(song);
-        serverQueue.textChannel
-          .send(`✅ **${song.title}** has been added to the queue by ${message.author}`)
-          .catch(console.error);
-      }
 
-      queueConstruct.songs.push(song);
-      message.client.queue.set(message.guild.id, queueConstruct);
-
-      try {
-        queueConstruct.connection = await channel.join();
-        await queueConstruct.connection.voice.setSelfDeaf(true);
-        play(queueConstruct.songs[0], message);
-      } catch (error) {
-        console.error(error);
-        message.client.queue.delete(message.guild.id);
-        await channel.leave();
-        message.channel.send(`Could not join the channel: ${error}`).catch(console.error);
-      }
     }
-
+    try {
+      queueConstruct.connection = await channel.join();
+      await queueConstruct.connection.voice.setSelfDeaf(true);
+      await play(queueConstruct.songs[0], message);
+    } catch (error) {
+      console.error(error);
+      message.client.queue.delete(message.guild.id);
+      await channel.leave();
+      message.channel.send(`Could not join the channel: ${error}`).catch(console.error);
+    }
   }
 };

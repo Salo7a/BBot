@@ -88,18 +88,7 @@ module.exports = {
           return message.reply(error.message).catch(console.error);
         }
       } else {
-        try {
-          const results = await youtube.searchVideos(search, 1);
-          songInfo = await ytdl.getInfo(results[0].url);
-          song = {
-            title: songInfo.videoDetails.title,
-            url: songInfo.videoDetails.video_url,
-            duration: songInfo.videoDetails.lengthSeconds
-          };
-        } catch (error) {
-          console.error(error);
-          return message.reply(error.message).catch(console.error);
-        }
+        return message.reply(`Incorrect URL ${s}`).catch(console.error);
       }
 
       if (serverQueue) {

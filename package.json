@@ -24,7 +24,7 @@
     "ytdl-core-discord": "^1.2.4"
   },
   "scripts": {
-    "start": "node index.js",
+    "start": "forever start index.js",
     "forever": "forever start index.js",
     "stop": "forever stop index.js"
   }

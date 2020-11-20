@@ -26,8 +26,19 @@ module.exports = {
     const { channel } = message.member.voice;
     const videoPattern = /^(https?:\/\/)?(www\.)?(m\.)?(youtube\.com|youtu\.?be)\/.+$/;
     const scRegex = /^https?:\/\/(soundcloud\.com)\/(.*)$/;
-    let list = await FindOrCreate(args[0]);
-    if (!list ) return message.reply("Playlist Doesn't Exist And Couldn't Be Created").catch(console.error);
+    let list = await findPlaylist(args[0]);
+    if (!list ) {
+      try {
+        list = await new Playlist({
+          Name: args[0],
+          Songs: []
+        });
+      } catch (error) {
+        console.error(error);
+        return message.reply("Playlist Doesn't Exist And Couldn't Be Created").catch(console.error);
+      }
+    }
+
     // Start the playlist if playlist url was provided
     let num = 0;
     for (let i = 1; i < args.length; i++) {

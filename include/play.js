@@ -28,7 +28,7 @@ module.exports = {
 
     try {
       if (song.url.includes("youtube.com")) {
-        stream = await ytdlDiscord(song.url, { highWaterMark: 1 << 25 });
+        stream = await ytdlDiscord(song.url, { highWaterMark: 1 << 26 });
       } else if (song.url.includes("soundcloud.com")) {
         try {
           stream = await scdl.downloadFormat(song.url, scdl.FORMATS.OPUS, SOUNDCLOUD_CLIENT_ID);
@@ -50,7 +50,7 @@ module.exports = {
     queue.connection.on("disconnect", () => message.client.queue.delete(message.guild.id));
 
     const dispatcher = queue.connection
-      .play(stream, { type: streamType })
+      .play(stream, { type: streamType, highWaterMark: 1 << 26 })
       .on("finish", () => {
         if (collector && !collector.ended) collector.stop();
 

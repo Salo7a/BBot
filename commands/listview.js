@@ -31,8 +31,8 @@ module.exports = {
         .setTimestamp();
       // Start the playlist if playlist url was provided
       for (let i = 0; i < list.Songs.length; i++) {
-        console.log(`${args[0]} ${i + 1} - ${list.SongsNames[i]}`)
-        embed.addField(`${i+1} - ${list.SongsNames[i]}`, list.SongsDuration[i])
+        console.log(`${args[0]} ${i + 1} - ${list.Songs[i].title}`);
+        embed.addField(`${i + 1} - ${list.Songs[i].title}`, list.Songs[i].duration);
       }
       message.channel.send(embed);
     } else {

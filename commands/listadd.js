@@ -71,9 +71,10 @@ module.exports = {
           }
         }
         if (song){
-          list.Songs.push(song.url);
-          list.SongsNames.push(song.title);
-          list.SongsDuration.push(song.duration);
+          list.Songs.push(song);
+          // list.SongsNames.push(song.title);
+          // list.SongsDuration.push(song.duration);
+          message.channel.send(`${song.title} Added To ${args[0]}`);
           num++;
         }
 

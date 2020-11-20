@@ -67,48 +67,49 @@ module.exports = {
       let songInfo = null;
       let song = null;
 
-      if (videoPattern.test(url)) {
-        try {
-          songInfo = await ytdl.getInfo(url);
-          song = {
-            title: songInfo.videoDetails.title,
-            url: songInfo.videoDetails.video_url,
-            duration: songInfo.videoDetails.lengthSeconds
-          };
-        } catch (error) {
-          console.error(error);
-          message.reply(error.message).catch(console.error);
-        }
-      } else if (scRegex.test(url)) {
-        try {
-          const trackInfo = await scdl.getInfo(url, SOUNDCLOUD_CLIENT_ID);
-          song = {
-            title: trackInfo.title,
-            url: trackInfo.permalink_url,
-            duration: Math.ceil(trackInfo.duration / 1000)
-          };
-        } catch (error) {
-          console.error(error);
-          message.reply(error.message).catch(console.error);
-        }
-      } else {
-         return message.reply(`Incorrect URL ${s}`).catch(console.error);
-      }
+      // if (videoPattern.test(url)) {
+      //   try {
+      //     songInfo = await ytdl.getInfo(url);
+      //     song = {
+      //       title: songInfo.videoDetails.title,
+      //       url: songInfo.videoDetails.video_url,
+      //       duration: songInfo.videoDetails.lengthSeconds
+      //     };
+      //   } catch (error) {
+      //     console.error(error);
+      //     message.reply(error.message).catch(console.error);
+      //   }
+      // } else if (scRegex.test(url)) {
+      //   try {
+      //     const trackInfo = await scdl.getInfo(url, SOUNDCLOUD_CLIENT_ID);
+      //     song = {
+      //       title: trackInfo.title,
+      //       url: trackInfo.permalink_url,
+      //       duration: Math.ceil(trackInfo.duration / 1000)
+      //     };
+      //   } catch (error) {
+      //     console.error(error);
+      //     message.reply(error.message).catch(console.error);
+      //   }
+      // } else {
+      //    return message.reply(`Incorrect URL ${s}`).catch(console.error);
+      // }
       serverQueue = await message.client.queue.get(message.guild.id);
-      if (serverQueue && serverQueue.songs.length !== 0){
-      serverQueue.songs.push(song);
-      serverQueue.textChannel
-        .send(`✅ **${song.title}** has been added to the queue`)
-        .catch(console.error);
-    } else {
-        message.reply(`✅ **${song.title}** has been added to the queue`).catch(console.error);
-        queueConstruct.songs.push(song);
+      if (serverQueue && serverQueue.songs.length !== 0) {
+        serverQueue.songs.push(s);
+        serverQueue.textChannel
+          .send(`✅ **${s.title}** has been added to the queue`)
+          .catch(console.error);
+      } else {
+        message.reply(`✅ **${s.title}** has been added to the queue`).catch(console.error);
+        queueConstruct.songs.push(s);
         message.client.queue.set(message.guild.id, queueConstruct);
       }
 
 
     }
     try {
+      message.channel.send(`Playlist ${args[0]} Has Been Added To The Queue`).catch(console.error);
       queueConstruct.connection = await channel.join();
       await queueConstruct.connection.voice.setSelfDeaf(true);
       await play(queueConstruct.songs[0], message);

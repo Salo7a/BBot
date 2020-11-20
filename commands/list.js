@@ -94,17 +94,17 @@ module.exports = {
       // } else {
       //    return message.reply(`Incorrect URL ${s}`).catch(console.error);
       // }
-      serverQueue = await message.client.queue.get(message.guild.id);
-      if (serverQueue && serverQueue.songs.length !== 0) {
-        serverQueue.songs.push(s);
-        serverQueue.textChannel
-          .send(`✅ **${s.title}** has been added to the queue`)
-          .catch(console.error);
-      } else {
-        message.reply(`✅ **${s.title}** has been added to the queue`).catch(console.error);
-        queueConstruct.songs.push(s);
-        message.client.queue.set(message.guild.id, queueConstruct);
-      }
+      // serverQueue = await message.client.queue.get(message.guild.id);
+      // if (serverQueue && serverQueue.songs.length !== 0) {
+      //   serverQueue.songs.push(s);
+      //   serverQueue.textChannel
+      //     .send(`✅ **${s.title}** has been added to the queue`)
+      //     .catch(console.error);
+      // } else {
+      message.channel.send(`✅ **${s.title}** has been added to the queue`).catch(console.error);
+      queueConstruct.songs.push(s);
+      message.client.queue.set(message.guild.id, queueConstruct);
+      // }
 
 
     }

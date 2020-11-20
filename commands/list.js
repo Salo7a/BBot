@@ -113,9 +113,11 @@ module.exports = {
     }
     try {
       message.channel.send(`Playlist ${args[0]} Has Been Added To The Queue`).catch(console.error);
-      queueConstruct.connection = await channel.join();
-      await queueConstruct.connection.voice.setSelfDeaf(true);
-      await play(queueConstruct.songs[0], message);
+      if (!serverQueue) {
+        queueConstruct.connection = await channel.join();
+        await queueConstruct.connection.voice.setSelfDeaf(true);
+        await play(queueConstruct.songs[0], message);
+      }
     } catch (error) {
       console.error(error);
       message.client.queue.delete(message.guild.id);

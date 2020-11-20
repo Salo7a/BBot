@@ -52,7 +52,7 @@ module.exports = {
     let list = await findPlaylist(args[0]);
     if (!list ) return message.reply("Playlist Doesn't Exist").catch(console.error);
     // Start the playlist if playlist url was provided
-    const queueConstruct = {
+    let queueConstruct = {
       textChannel: message.channel,
       channel,
       connection: null,
@@ -61,6 +61,9 @@ module.exports = {
       volume: 100,
       playing: true
     };
+    if (serverQueue) {
+      queueConstruct = serverQueue;
+    }
     for (const s of list.Songs) {
       let url = s;
 

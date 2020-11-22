@@ -28,7 +28,7 @@ module.exports = {
 
     try {
       if (song.url.includes("youtube.com")) {
-        stream = await ytdlDiscord(song.url, { highWaterMark: 1 << 26 });
+        stream = await ytdlDiscord(song.url, { highWaterMark: 1 << 25 });
       } else if (song.url.includes("soundcloud.com")) {
         try {
           stream = await scdl.downloadFormat(song.url, scdl.FORMATS.OPUS, SOUNDCLOUD_CLIENT_ID);

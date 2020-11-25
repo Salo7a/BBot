@@ -15,8 +15,10 @@
     "@discordjs/opus": "^0.3.3",
     "discord.js": "^12.5.0",
     "ffmpeg-static": "^4.2.3",
+    "forever": "^3.0.2",
     "lyrics-finder": "^21.0.5",
     "mongoose": "^5.10.16",
+    "nodemon": "^2.0.6",
     "simple-youtube-api": "^5.1.1",
     "soundcloud-downloader": "^0.2.0",
     "string-progressbar": "^1.0.1",
@@ -24,6 +26,8 @@
     "ytdl-core-discord": "^1.2.4"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "nodemon index.js",
+    "forever": "forever start index.js",
+    "stop": "forever stop index.js"
   }
 }

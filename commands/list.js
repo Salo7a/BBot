@@ -25,7 +25,7 @@ let list = {
 }
 module.exports = {
   name: "SavedPlaylist",
-  cooldown: 3,
+  cooldown: 60,
   aliases: ["list"],
   description: "Plays audio from a Saved Playlist",
   async execute(message, args) {

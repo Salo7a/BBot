@@ -1,26 +1,21 @@
 const ytdlDiscord = require("ytdl-core-discord");
 const scdl = require("soundcloud-downloader");
-const { canModifyQueue } = require("../util/EvobotUtil");
+const { canModifyQueue, STAY_TIME } = require("../util/EvobotUtil");
 
 module.exports = {
   async play(song, message) {
-    let config;
-
-    try {
-      config = require("../config.json");
-    } catch (error) {
-      config = null;
-    }
-
-    const PRUNING = config ? config.PRUNING : process.env.PRUNING
-    const SOUNDCLOUD_CLIENT_ID = config ? config.SOUNDCLOUD_CLIENT_ID : process.env.SOUNDCLOUD_CLIENT_ID;
+    const { PRUNING, SOUNDCLOUD_CLIENT_ID } = require("../util/EvobotUtil");
 
     const queue = message.client.queue.get(message.guild.id);
 
     if (!song) {
-      queue.channel.leave();
-      message.client.queue.delete(message.guild.id);
-      return queue.textChannel.send("❌ Music queue ended.").catch(console.error);
+      setTimeout(function() {
+        if (queue.connection.dispatcher && message.guild.me.voice.channel) return;
+        queue.channel.leave();
+        queue.textChannel.send("Leaving voice channel...");
+      }, STAY_TIME * 1000);
+      queue.textChannel.send("❌ Music queue ended.").catch(console.error);
+      return message.client.queue.delete(message.guild.id);
     }
 
     let stream = null;
@@ -50,7 +45,7 @@ module.exports = {
     queue.connection.on("disconnect", () => message.client.queue.delete(message.guild.id));
 
     const dispatcher = queue.connection
-      .play(stream, { type: streamType, highWaterMark: 1 << 26 })
+      .play(stream, { type: streamType })
       .on("finish", () => {
         if (collector && !collector.ended) collector.stop();
 
@@ -184,7 +179,7 @@ module.exports = {
 
     collector.on("end", () => {
       playingMessage.reactions.removeAll().catch(console.error);
-      if (PRUNING === true || (PRUNING == "true") && playingMessage && !playingMessage.deleted) {
+      if (PRUNING == "true" && playingMessage && !playingMessage.deleted) {
         playingMessage.delete({ timeout: 3000 }).catch(console.error);
       }
     });

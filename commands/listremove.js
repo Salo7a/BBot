@@ -21,7 +21,7 @@ module.exports = {
     // Start the playlist if playlist url was provided
     let num = 0;
     for (let i = 1; i < args.length; i++) {
-      if (parseInt(args[i]) - 1 <= args.length && parseInt(args[i]) > 0) {
+      if (parseInt(args[i]) <= list.Songs.length && parseInt(args[i]) > 0) {
         list.Songs.splice(parseInt(args[i]) + 1, 1);
         // list.SongsNames.splice(args[i]+1, 1);
         // list.SongsDuration.splice(args[i]+1, 1);

@@ -4,7 +4,7 @@ const { MessageEmbed } = require("discord.js");
 module.exports = {
   name: "DadJoke",
   cooldown: 1,
-  aliases: ["affirm", "sad", "matfi", "refa3y"],
+  aliases: ["djoke", "joke"],
   description: "Contacts the spirits to get you an advice",
   async execute(message, args) {
     fetch("https://icanhazdadjoke.com/slack")

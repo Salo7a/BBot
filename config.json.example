@@ -6,5 +6,6 @@
   "PREFIX": "/",
   "PRUNING": false,
   "MONGODB_CONNECTION_STRING": "",
-  "STAY_TIME": 30
+  "STAY_TIME": 30,
+  "TENOR_API": ""
 }

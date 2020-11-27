@@ -40,7 +40,9 @@ Copy or Rename `config.json.example` to `config.json` and fill out the values:
   "MAX_PLAYLIST_SIZE": 10,
   "PREFIX": "/",
   "PRUNING": false,
-  "STAY_TIME": 30
+  "MONGODB_CONNECTION_STRING": "",
+  "STAY_TIME": 30,
+  "TENOR_API": ""
 }
 ```
 

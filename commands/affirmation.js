@@ -5,7 +5,7 @@ module.exports = {
   name: "affirmation",
   cooldown: 1,
   aliases: ["affirm", "sad", "matfi", "refa3y"],
-  description: "Contacts the spirits to get you an advice",
+  description: "Ignites your soul with tailored affirmations!",
   async execute(message, args) {
     fetch("https://www.affirmations.dev/")
       .then(res => res.json())

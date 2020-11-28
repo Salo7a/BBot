@@ -5,7 +5,7 @@ module.exports = {
   name: "DadJoke",
   cooldown: 1,
   aliases: ["djoke", "joke"],
-  description: "Contacts the spirits to get you an advice",
+  description: "Your Dose of Weird Dad Jokes!",
   async execute(message, args) {
     fetch("https://icanhazdadjoke.com/slack")
       .then(res => res.json())

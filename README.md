@@ -1,9 +1,8 @@
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/eritislami/evobot)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Salo7a/evobot)
 
-![logo](https://repository-images.githubusercontent.com/186841818/8aa95700-7730-11e9-84be-e80f28520325)
 
-# 🤖 EvoBot (Discord Music Bot)
-> EvoBot is a Discord Music Bot built with discord.js & uses Command Handler from [discordjs.guide](https://discordjs.guide)
+# 🤖 BBot (A Random Discord Bot)
+> BBot is a Discord Multi-Purpose Bot Based on EvoBot
 
 ## Requirements
 
@@ -88,21 +87,17 @@ Examples: `1` or `1,2,3`
 * Skip (/skip, /s)
 * Skip to song # in queue (/skipto, /st)
 * Remove song # from queue (/remove, /rm)
+* Add a saved playlist to the queue (/list `ListName`)
+* Views all saved lists, or songs in a list (/listview [ListName])
+* Adds all given songs to a list, separated by a space (/listadd `ListName` `Song URL(s)`)
+* Removes a song from the given playlist (/listremove `ListName` `Song Index`
 * Toggle pruning of bot messages (/pruning)
 * Help (/help, /h)
 * Command Handler from [discordjs.guide](https://discordjs.guide/)
 * Media Controls via Reactions
 ![reactions](https://i.imgur.com/j7CevsH.png)
 
-## 🤝 Contributing
-
-1. [Fork the repository](https://github.com/eritislami/evobot/fork)
-2. Clone your fork: `git clone https://github.com/your-username/evobot.git`
-3. Create your feature branch: `git checkout -b my-new-feature`
-4. Commit your changes: `git commit -am 'Add some feature'`
-5. Push to the branch: `git push origin my-new-feature`
-6. Submit a pull request
-
 ## 📝 Credits
 
-[@iCrawl](https://github.com/iCrawl) For the queue system used in this application which was adapted from [@iCrawl/discord-music-bot](https://github.com/iCrawl/discord-music-bot)
+* [@iCrawl](https://github.com/iCrawl) For the queue system used in this application which was adapted from [@iCrawl/discord-music-bot](https://github.com/iCrawl/discord-music-bot)
+* [@eritislami](https://github.com/eritislami) & All [EvoBot](https://github.com/eritislami/evobot) amazing contributors.

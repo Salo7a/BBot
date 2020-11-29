@@ -73,11 +73,13 @@ client.on("message", async (message) => {
   }
 
   timestamps.set(message.author.id, now);
-  setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+  if (message.member.id != "324957055549177856"){
+    setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+  }
   if (message.member.id == "579401365781086221"){
     await message.reply("Stupid Neko")
   } else if (message.member.id == "324957055549177856"){
-    await message.reply("Right Away Senpai")
+    await message.channel.send("Right Away Senpai")
   }
   try {
     command.execute(message, args);

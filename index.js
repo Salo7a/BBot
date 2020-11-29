@@ -4,7 +4,7 @@
 const { Client, Collection } = require("discord.js");
 const { readdirSync } = require("fs");
 const { join } = require("path");
-const { TOKEN, PREFIX } = require("./util/EvobotUtil");
+const { TOKEN, PREFIX} = require("./util/EvobotUtil");
 
 const client = new Client({ disableMentions: "everyone" });
 
@@ -74,7 +74,11 @@ client.on("message", async (message) => {
 
   timestamps.set(message.author.id, now);
   setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
-
+  if (message.member.id == "579401365781086221"){
+    await message.reply("Stupid Neko")
+  } else if (message.member.id == "324957055549177856"){
+    await message.reply("Right Away Senpai")
+  }
   try {
     command.execute(message, args);
   } catch (error) {

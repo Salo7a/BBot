@@ -1,8 +1,8 @@
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-  name: "ping",
-  aliases: ["ping"],
+  name: "quote",
+  aliases: ["quote"],
   description: "Random Quote",
   execute(message) {
     let quotes = ["Fight To Reach", "“You want the truth? You can't handle the truth!”", "“Bond. James Bond”",

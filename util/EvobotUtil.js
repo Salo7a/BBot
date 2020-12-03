@@ -27,3 +27,4 @@ exports.PRUNING = config ? config.PRUNING : process.env.PRUNING;
 exports.MONGODB_CONNECTION_STRING = config ? config.MONGODB_CONNECTION_STRING : process.env.MONGODB_CONNECTION_STRING;
 exports.STAY_TIME = config ? config.STAY_TIME : process.env.STAY_TIME;
 exports.TENOR_API = config ? config.TENOR_API : process.env.TENOR_API;
+exports.DEFAULT_VOLUME = config ? config.DEFAULT_VOLUME: process.env.DEFAULT_VOLUME;

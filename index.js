@@ -4,8 +4,8 @@
 const { Client, Collection } = require("discord.js");
 const { readdirSync } = require("fs");
 const { join } = require("path");
-const { TOKEN, PREFIX} = require("./util/EvobotUtil");
-
+const { TOKEN, PREFIX, OWNER_ID} = require("./util/EvobotUtil");
+let Messages = require("./util/Messages.json");
 const client = new Client({ disableMentions: "everyone" });
 
 client.login(TOKEN);
@@ -14,14 +14,14 @@ client.prefix = PREFIX;
 client.queue = new Map();
 const cooldowns = new Collection();
 const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
+process.on('warning', e => console.warn(e.stack));
 /**
  * Client Events
  */
 client.on("ready", () => {
   console.log(`${client.user.username} ready!`);
   // client.user.setActivity(`${PREFIX}help and ${PREFIX}play`, { type: "LISTENING" });
-  client.user.setActivity(`With People's Lives`, { type: "PLAYING" });
+  client.user.setActivity(`With The Hearts Of Virgins`, { type: "PLAYING" });
 });
 client.on("warn", (info) => console.log(info));
 client.on("error", console.error);
@@ -60,7 +60,7 @@ client.on("message", async (message) => {
   const now = Date.now();
   const timestamps = cooldowns.get(command.name);
   const cooldownAmount = (command.cooldown || 1) * 1000;
-  if (message.member.id != "324957055549177856"){
+  if (message.member.id != OWNER_ID){
     if (timestamps.has(message.author.id)) {
       const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 
@@ -76,8 +76,8 @@ client.on("message", async (message) => {
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
   }
 
-  if (message.member.id == "579401365781086221"){
-    await message.reply("Stupid Neko")
+  if (Messages[message.member.id]){
+    await message.channel.send(Messages[message.member.id])
   } else if (message.member.id == "513775123476512816"){
     await message.reply("So Now You Want Me?, Why Don't You Use Groovy Traitor")
   } else if (message.member.id == "324957055549177856"){

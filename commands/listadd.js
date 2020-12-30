@@ -1,6 +1,6 @@
 const { play } = require("../include/play");
 const ytdl = require("ytdl-core");
-const scdl = require("soundcloud-downloader");
+const scdl = require("soundcloud-downloader").default;
 const mongoose = require("mongoose");
 const PlaylistSchema = require("../include/PlaylistSchema");
 const Playlist = mongoose.model("Playlist", PlaylistSchema, "Playlist");
@@ -49,7 +49,7 @@ module.exports = {
           }
         } else if (scRegex.test(args[i])) {
           try {
-            const trackInfo = await scdl.getInfo(args[i], SOUNDCLOUD_CLIENT_ID);
+            const trackInfo = await scdl.getInfo(args[i]);
             song = {
               title: trackInfo.title,
               url: trackInfo.permalink_url,

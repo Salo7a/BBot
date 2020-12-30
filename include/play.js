@@ -36,16 +36,16 @@ module.exports = {
         stream = await ytdl(song.url, { highWaterMark: 1 << 25 });
       } else if (song.url.includes("soundcloud.com")) {
         try {
-          stream = await scdl.downloadFormat(song.url, scdl.FORMATS.OPUS, SOUNDCLOUD_CLIENT_ID);
+          stream = await scdl.downloadFormat(song.url, scdl.FORMATS.OPUS);
         } catch (error) {
-          stream = await scdl.downloadFormat(song.url, scdl.FORMATS.MP3, SOUNDCLOUD_CLIENT_ID);
+          stream = await scdl.downloadFormat(song.url, scdl.FORMATS.MP3);
           streamType = "unknown";
         }
       }
     } catch (error) {
       if (queue) {
         queue.songs.shift();
-        module.exports.play(queue.songs[0], message);
+        await module.exports.play(queue.songs[0], message);
       }
 
       console.error(error);

@@ -88,7 +88,7 @@ module.exports = {
       }
     } else if (scRegex.test(url)) {
       try {
-        const trackInfo = await scdl.getInfo(url, SOUNDCLOUD_CLIENT_ID);
+        const trackInfo = await scdl.getInfo(url);
         song = {
           title: trackInfo.title,
           url: trackInfo.permalink_url,

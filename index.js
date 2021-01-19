@@ -6,7 +6,10 @@ const { readdirSync } = require("fs");
 const { join } = require("path");
 const { TOKEN, PREFIX, OWNER_ID} = require("./util/EvobotUtil");
 let Messages = require("./util/Messages.json");
-const client = new Client({ disableMentions: "everyone" });
+const client = new Client({
+  disableMentions: "everyone",
+  restTimeOffset: 0
+});
 
 client.login(TOKEN);
 client.commands = new Collection();

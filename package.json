@@ -18,7 +18,7 @@
     "i18n": "^0.13.2",
     "forever": "^3.0.2",
     "lyrics-finder": "^21.0.5",
-    "mongoose": "^5.10.16",
+    "mongoose": "*",
     "node-fetch": "^2.6.1",
     "nodemon": "^2.0.6",
     "opusscript": "0.0.7",

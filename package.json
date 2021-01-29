@@ -8,14 +8,14 @@
   "repository": "github:Salo7a/BBot",
   "bugs": "https://github.com/Salo7a/BBot/issues",
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=14.0.0"
   },
   "dependencies": {
     "@discordjs/opus": "^0.3.3",
     "array-move": "^3.0.1",
     "discord.js": "^12.5.1",
-    "erit-ytdl": "*",
     "ffmpeg-static": "^4.2.3",
+    "i18n": "^0.13.2",
     "forever": "^3.0.2",
     "lyrics-finder": "^21.0.5",
     "mongoose": "^5.10.16",
@@ -24,8 +24,9 @@
     "opusscript": "0.0.7",
     "simple-youtube-api": "^5.1.1",
     "soundcloud-downloader": "^0.2.3",
-    "string-progressbar": "^1.0.1",
-    "ytdl-core": "^4.4.3"
+    "string-progressbar": "^1.0.3",
+    "ytdl-core": "^4.4.5",
+    "ytdl-core-discord": "^1.2.5"
   },
   "scripts": {
     "start": "nodemon index.js",

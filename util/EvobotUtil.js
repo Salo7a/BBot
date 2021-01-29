@@ -10,7 +10,6 @@ exports.canModifyQueue = (member) => {
   const { channelID } = member.voice;
   const botChannel = member.guild.voice.channelID;
   if ((channelID !== botChannel) && member.id != owner) {
-    member.send("You need to join the voice channel first!").catch(console.error);
     return;
   }
 
@@ -28,4 +27,5 @@ exports.MONGODB_CONNECTION_STRING = config ? config.MONGODB_CONNECTION_STRING : 
 exports.STAY_TIME = config ? config.STAY_TIME : process.env.STAY_TIME;
 exports.TENOR_API = config ? config.TENOR_API : process.env.TENOR_API;
 exports.DEFAULT_VOLUME = config ? config.DEFAULT_VOLUME: process.env.DEFAULT_VOLUME;
+exports.LOCALE = config ? config.LOCALE : process.env.LOCALE;
 exports.OWNER_ID = config ? config.OWNER_ID: process.env.OWNER_ID;

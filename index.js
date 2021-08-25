@@ -23,9 +23,10 @@ const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 process.on('warning', e => console.warn(e.stack));
 
 i18n.configure({
-  locales: ["ar", "de", "en", "es", "fr", "it", "ko", "nl", "pl", "pt_br", "ru", "sv", "tr", "zh_cn", "zh_tw"],
-  directory: path.join(__dirname, "locales"),
+  locales: ["ar", "de", "en", "es", "fr", "it", "ko", "nl", "pl", "pt_br", "ru", "sv", "th", "tr", "vi", "zh_cn", "zh_sg", "zh_tw"],
+  directory: join(__dirname, "locales"),
   defaultLocale: "en",
+  retryInDefaultLocale: true,
   objectNotation: true,
   register: global,
 
@@ -119,6 +120,6 @@ client.on("message", async (message) => {
     command.execute(message, args);
   } catch (error) {
     console.error(error);
-    message.reply(i18n.__("common.errorCommend")).catch(console.error);
+    message.reply(i18n.__("common.errorCommand")).catch(console.error);
   }
 });

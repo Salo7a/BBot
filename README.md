@@ -58,10 +58,13 @@ Currently available locales are:
 - Polish (pl)
 - Russian (ru)
 - Simplified Chinese (zh_cn)
+- Singaporean Mandarin (zh_sg)
 - Spanish (es)
 - Swedish (sv)
 - Traditional Chinese (zh_tw)
+- Thai (th)
 - Turkish (tr)
+- Vietnamese (vi)
 - Check [Contributing](#-contributing) if you wish to help add more languages!
 
 ## 📝 Features & Commands
@@ -116,7 +119,6 @@ Examples: `1` or `1,2,3`
 * Adds all given songs to a list, separated by a space (/listadd `ListName` `Song URL(s)`)
 * Removes a song from the given playlist (/listremove `ListName` `Song Index`
 * Toggle pruning of bot messages (/pruning)
-* Localization in 6 languages
 * Help (/help, /h)
 * Command Handler from [discordjs.guide](https://discordjs.guide/)
 * Media Controls via Reactions

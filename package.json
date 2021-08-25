@@ -16,7 +16,7 @@
     "discord.js": "^12.5.1",
     "ffmpeg-static": "^4.4.0",
     "i18n": "^0.13.3",
-    "forever": "^3.0.2",
+    "forever": "^4.0.1",
     "lyrics-finder": "^21.0.5",
     "mongoose": "*",
     "node-fetch": "^2.6.1",

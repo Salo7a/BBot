@@ -1,4 +1,4 @@
-![Node build](https://github.com/Salo7a/BBot/blob/master/actions/workflows/node.yml/badge.svg)
+![Node build](https://github.com/Salo7a/BBot/actions/workflows/node.yml/badge.svg)
 ![Docker build](https://github.com/Salo7a/BBot/actions/workflows/docker.yml/badge.svg)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 

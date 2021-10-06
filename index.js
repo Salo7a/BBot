@@ -85,11 +85,8 @@ client.on("message", async (message) => {
 
   if (Messages[message.member.id]){
     await message.channel.send(Messages[message.member.id])
-  } else if (message.member.id == "513775123476512816"){
-    await message.reply("So Now You Want Me?, Why Don't You Use Groovy Traitor")
-  } else if (message.member.id == "324957055549177856"){
-    await message.channel.send("Right Away Senpai")
   }
+
   try {
     command.execute(message, args);
   } catch (error) {

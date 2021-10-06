@@ -1,13 +1,11 @@
+const i18n = require("../util/i18n");
 const { play } = require("../include/play");
 const ytdl = require("ytdl-core");
 const YouTubeAPI = require("simple-youtube-api");
-const scdl = require("soundcloud-downloader").default
+const scdl = require("soundcloud-downloader").default;
 const https = require("https");
-const { YOUTUBE_API_KEY, SOUNDCLOUD_CLIENT_ID, LOCALE, DEFAULT_VOLUME } = require("../util/EvobotUtil");
+const { YOUTUBE_API_KEY, SOUNDCLOUD_CLIENT_ID, DEFAULT_VOLUME } = require("../util/Util");
 const youtube = new YouTubeAPI(YOUTUBE_API_KEY);
-const i18n = require("i18n");
-
-i18n.setLocale(LOCALE);
 
 module.exports = {
   name: "play",
@@ -18,7 +16,9 @@ module.exports = {
     const { channel } = message.member.voice;
 
     const serverQueue = message.client.queue.get(message.guild.id);
+
     if (!channel) return message.reply(i18n.__("play.errorNotChannel")).catch(console.error);
+
     if (serverQueue && channel !== message.guild.me.voice.channel)
       return message
         .reply(i18n.__mf("play.errorNotInSameChannel", { user: message.client.user }))
@@ -54,7 +54,7 @@ module.exports = {
           if (res.statusCode == "302") {
             return message.client.commands.get("play").execute(message, [res.headers.location]);
           } else {
-            return message.reply("No content could be found at that url.").catch(console.error);
+            return message.reply(i18n.__("play.songNotFound")).catch(console.error);
           }
         });
       } catch (error) {
@@ -70,7 +70,8 @@ module.exports = {
       connection: null,
       songs: [],
       loop: false,
-      volume: DEFAULT_VOLUME || 100,
+      volume: DEFAULT_VOLUME,
+      muted: false,
       playing: true
     };
 
@@ -103,13 +104,13 @@ module.exports = {
       }
     } else {
       try {
-        const results = await youtube.searchVideos(search, 1, { part: "snippet" });
-        // PATCH 1 : avoid cases when there are nothing on the search results.
-        if (results.length <= 0) {
-          // No video results.
-          message.reply(i18n.__mf("play.songNotFound")).catch(console.error);
+        const results = await youtube.searchVideos(search, 1, { part: "id" });
+
+        if (!results.length) {
+          message.reply(i18n.__("play.songNotFound")).catch(console.error);
           return;
         }
+
         songInfo = await ytdl.getInfo(results[0].url);
         song = {
           title: songInfo.videoDetails.title,
@@ -140,7 +141,7 @@ module.exports = {
       console.error(error);
       message.client.queue.delete(message.guild.id);
       await channel.leave();
-      return message.channel.send(i18n.__('play.cantJoinChannel', {error: error})).catch(console.error);
+      return message.channel.send(i18n.__mf("play.cantJoinChannel", { error: error })).catch(console.error);
     }
   }
 };

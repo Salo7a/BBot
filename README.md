@@ -1,4 +1,6 @@
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Salo7a/evobot)
+![Node build](https://github.com/Salo7a/BBot/blob/master/actions/workflows/node.yml/badge.svg)
+![Docker build](https://github.com/Salo7a/BBot/actions/workflows/docker.yml/badge.svg)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 
 # 🤖 BBot (A Random Discord Bot)
@@ -14,14 +16,13 @@
 ## 🚀 Getting Started
 
 If deploying to Heroku make sure to create config variables
-
-```
-git clone https://github.com/eritislami/evobot.git
-cd evobot
+```sh
+git clone https://github.com/Salo7a/BBot.git
+cd BBot
 npm install
 ```
 
-After installation finishes you can use `node index.js` to start the bot.
+After installation finishes follow configuration instructions then run `node index.js` to start the bot.
 
 ## ⚙️ Configuration
 
@@ -39,33 +40,19 @@ Copy or Rename `config.json.example` to `config.json` and fill out the values:
   "PRUNING": false,
   "LOCALE": "en",
   "DEFAULT_VOLUME": 100,
-  "STAY_TIME": 30
-  "MONGODB_CONNECTION_STRING": "",
   "STAY_TIME": 30,
+  "MONGODB_CONNECTION_STRING": "",
   "TENOR_API": ""
 }
 ```
 
-Currently available locales are:
-- English (en)
-- Arabic (ar)
-- Brazilian Portuguese (pt_br)
-- Dutch (nl)
-- French (fr)
-- German (de)
-- Italian (it)
-- Korean (ko)
-- Polish (pl)
-- Russian (ru)
-- Simplified Chinese (zh_cn)
-- Singaporean Mandarin (zh_sg)
-- Spanish (es)
-- Swedish (sv)
-- Traditional Chinese (zh_tw)
-- Thai (th)
-- Turkish (tr)
-- Vietnamese (vi)
-- Check [Contributing](#-contributing) if you wish to help add more languages!
+## 🐬 Docker Configuration
+
+For those who would prefer to use our [Docker container](https://hub.docker.com/repository/docker/eritislami/evobot), you may provide values from `config.json` as environment variables.
+
+```shell
+docker run -e "TOKEN=<discord-token>" -e "YOUTUBE_API_KEY=<youtube-key>" Salo7a/BBot
+```
 
 ## 📝 Features & Commands
 
@@ -112,7 +99,7 @@ Examples: `1` or `1,2,3`
 * Remove song # from queue (/remove, /rm)
 * Play an mp3 clip (/clip song.mp3) (put the file in sounds folder)
 * List all clips (/clips)
-* Show api ping (/ping)
+* Show ping to Discord API (/ping)
 * Show bot uptime (/uptime)
 * Add a saved playlist to the queue (/list `ListName`)
 * Views all saved lists, or songs in a list (/listview [ListName])
@@ -124,6 +111,34 @@ Examples: `1` or `1,2,3`
 * Media Controls via Reactions
 
 ![reactions](https://i.imgur.com/9S7Omf9.png)
+
+## 🌎 Locales
+
+Currently available locales are:
+- English (en)
+- Arabic (ar)
+- Brazilian Portuguese (pt_br)
+- Dutch (nl)
+- French (fr)
+- German (de)
+- Greek (el)
+- Indonesian (id)
+- Italian (it)
+- Japanese (ja)
+- Korean (ko)
+- Polish (pl)
+- Russian (ru)
+- Simplified Chinese (zh_cn)
+- Singaporean Mandarin (zh_sg)
+- Spanish (es)
+- Swedish (sv)
+- Traditional Chinese (zh_tw)
+- Thai (th)
+- Turkish (tr)
+- Ukrainian (uk)
+- Vietnamese (vi)
+- Check [Contributing](#-contributing) if you wish to help add more languages!
+- For languages please use [ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes) two letter format
 
 ## 📝 Credits
 

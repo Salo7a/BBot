@@ -1,6 +1,6 @@
 {
   "name": "bbot",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "description": "Discord Multi-Purpose Bot Based on EvoBot",
   "main": "index.js",
   "private": true,
@@ -29,8 +29,17 @@
     "ytdl-core-discord": "^1.3.1"
   },
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
+    "commit": "cz",
     "forever": "forever start index.js",
     "stop": "forever stop index.js"
+  },
+  "devDependencies": {
+    "cz-conventional-changelog": "^3.3.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

@@ -4,10 +4,10 @@
 const { Client, Collection } = require("discord.js");
 const { readdirSync } = require("fs");
 const { join } = require("path");
-const { TOKEN, PREFIX, OWNER_ID, LOCALE} = require("./util/EvobotUtil");
+const { TOKEN, PREFIX, OWNER_ID, LOCALE } = require("./util/Util");
+const i18n = require("./util/i18n");
 let Messages = require("./util/Messages.json");
 const path = require("path");
-const i18n = require("i18n");
 
 const client = new Client({
   disableMentions: "everyone",
@@ -21,32 +21,6 @@ client.queue = new Map();
 const cooldowns = new Collection();
 const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 process.on('warning', e => console.warn(e.stack));
-
-i18n.configure({
-  locales: ["ar", "de", "en", "es", "fr", "it", "ko", "nl", "pl", "pt_br", "ru", "sv", "th", "tr", "vi", "zh_cn", "zh_sg", "zh_tw"],
-  directory: join(__dirname, "locales"),
-  defaultLocale: "en",
-  retryInDefaultLocale: true,
-  objectNotation: true,
-  register: global,
-
-  logWarnFn: function (msg) {
-    console.log("warn", msg);
-  },
-
-  logErrorFn: function (msg) {
-    console.log("error", msg);
-  },
-
-  missingKeyFn: function (locale, value) {
-    return value;
-  },
-
-  mustacheConfig: {
-    tags: ["{{", "}}"],
-    disable: false
-  }
-});
 
 /**
  * Client Events

@@ -1,12 +1,11 @@
 const ytdl = require("ytdl-core-discord");
 const scdl = require("soundcloud-downloader").default;
-const { canModifyQueue, STAY_TIME, LOCALE } = require("../util/EvobotUtil");
-const i18n = require("i18n");
-i18n.setLocale(LOCALE);
+const { canModifyQueue, STAY_TIME } = require("../util/Util");
+const i18n = require("../util/i18n");
 
 module.exports = {
   async play(song, message) {
-    const { SOUNDCLOUD_CLIENT_ID } = require("../util/EvobotUtil");
+    const { SOUNDCLOUD_CLIENT_ID } = require("../util/Util");
 
     let config;
 
@@ -24,9 +23,9 @@ module.exports = {
       setTimeout(function () {
         if (queue.connection.dispatcher && message.guild.me.voice.channel) return;
         queue.channel.leave();
-        queue.textChannel.send(i18n.__("play.leaveChannel"));
+        !PRUNING && queue.textChannel.send(i18n.__("play.leaveChannel"));
       }, STAY_TIME * 1000);
-      queue.textChannel.send(i18n.__("play.queueEnded")).catch(console.error);
+      !PRUNING && queue.textChannel.send(i18n.__("play.queueEnded")).catch(console.error);
       return message.client.queue.delete(message.guild.id);
     }
 
@@ -62,6 +61,8 @@ module.exports = {
       .play(stream, { type: streamType })
       .on("finish", () => {
         if (collector && !collector.ended) collector.stop();
+
+        queue.connection.removeAllListeners("disconnect");
 
         if (queue.loop) {
           // if loop is on, push the song back at the end of the queue
@@ -133,14 +134,13 @@ module.exports = {
         case "🔇":
           reaction.users.remove(user).catch(console.error);
           if (!canModifyQueue(member)) return i18n.__("common.errorNotChannel");
-          if (queue.volume <= 0) {
-            queue.volume = 100;
-            queue.connection.dispatcher.setVolumeLogarithmic(100 / 100);
-            queue.textChannel.send(i18n.__mf("play.unmutedSong", { author: user })).catch(console.error);
-          } else {
-            queue.volume = 0;
+          queue.muted = !queue.muted;
+          if (queue.muted) {
             queue.connection.dispatcher.setVolumeLogarithmic(0);
             queue.textChannel.send(i18n.__mf("play.mutedSong", { author: user })).catch(console.error);
+          } else {
+            queue.connection.dispatcher.setVolumeLogarithmic(queue.volume / 100);
+            queue.textChannel.send(i18n.__mf("play.unmutedSong", { author: user })).catch(console.error);
           }
           break;
 
@@ -148,8 +148,7 @@ module.exports = {
           reaction.users.remove(user).catch(console.error);
           if (queue.volume == 0) return;
           if (!canModifyQueue(member)) return i18n.__("common.errorNotChannel");
-          if (queue.volume - 10 <= 0) queue.volume = 0;
-          else queue.volume = queue.volume - 10;
+          queue.volume = Math.max(queue.volume - 10, 0);
           queue.connection.dispatcher.setVolumeLogarithmic(queue.volume / 100);
           queue.textChannel
             .send(i18n.__mf("play.decreasedVolume", { author: user, volume: queue.volume }))
@@ -160,8 +159,7 @@ module.exports = {
           reaction.users.remove(user).catch(console.error);
           if (queue.volume == 100) return;
           if (!canModifyQueue(member)) return i18n.__("common.errorNotChannel");
-          if (queue.volume + 10 >= 100) queue.volume = 100;
-          else queue.volume = queue.volume + 10;
+          queue.volume = Math.min(queue.volume + 10, 100);
           queue.connection.dispatcher.setVolumeLogarithmic(queue.volume / 100);
           queue.textChannel
             .send(i18n.__mf("play.increasedVolume", { author: user, volume: queue.volume }))

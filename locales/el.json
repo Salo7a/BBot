@@ -1,7 +1,7 @@
 {
   "clip": {
     "description": "Παίζει έναν ήχο ενός κλίπ",
-    "usagesReply": "Χρήση: /clip <name>",
+    "usagesReply": "Χρήση: {prefix}clip <name>",
     "errorQueue": "Αδύνατη αναπαραγωγή κλίπ καθώς υπάρχει ενεργή ουρά.",
     "errorNotChannel": "Θα πρέπει να συνδεθείς σε ένα κανάλι ομιλίας πρώτα!"
   },
@@ -28,7 +28,7 @@
     "embedTitle": "{title} - Στίχοι"
   },
   "move": {
-    "description": "Μετακίνησε τα ταργούδια στην ουρά",
+    "description": "Μετακίνησε τα τραγούδια στην ουρά",
     "errorNotQueue": "Δεν υπάρχει ουρά αναπαραγωγής.",
     "usagesReply": "Χρήση: {prefix}move <Νούμερο Ουράς>",
     "result": "<@{author}> 🚚 μετακίνησε **{title}** ως {index}ο στην ουρά."

@@ -1,8 +1,10 @@
-/config.json
+config.json
+.env
 /.idea
 /.vscode
 /sounds/**
 !/sounds/putmusichere.mp3
+/dist
 
 # Logs
 logs
@@ -62,3 +64,4 @@ typings/
 
 # Temp ignore 
 config.json
+/old/

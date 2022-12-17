@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
-const PlaylistSchema = new mongoose.Schema({
+const PlaylistSchema = new Schema({
   Name: {
     type: String,
     required: [true, "Playlist Name is required"]
@@ -19,4 +20,4 @@ const PlaylistSchema = new mongoose.Schema({
   }
 });
 
-module.exports = PlaylistSchema;
+export {PlaylistSchema, mongoose};

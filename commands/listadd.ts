@@ -1,19 +1,15 @@
-const { play } = require("../include/play");
+import { Message } from "discord.js";
+
 const ytdl = require("ytdl-core");
 const scdl = require("soundcloud-downloader").default;
-const mongoose = require("mongoose");
-const PlaylistSchema = require("../include/PlaylistSchema");
-const Playlist = mongoose.model("Playlist", PlaylistSchema, "Playlist");
 const { findPlaylist } = require("../include/PlaylistFunctions");
-const { YOUTUBE_API_KEY, SOUNDCLOUD_CLIENT_ID, MONGODB_CONNECTION_STRING } = require("../util/EvobotUtil");
-const connector = mongoose.connect(MONGODB_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true });
+
 module.exports = {
   name: "Add To Playlist",
   cooldown: 10,
   aliases: ["listadd"],
   description: "Adds Songs To A Custom Playlist",
-  async execute(message, args) {
-    const { channel } = message.member.voice;
+  async execute(message: Message, args: string[]) {
     const videoPattern = /^(https?:\/\/)?(www\.)?(m\.)?(youtube\.com|youtu\.?be)\/.+$/;
     const scRegex = /^https?:\/\/(soundcloud\.com)\/(.*)$/;
     let list = await findPlaylist(args[0]);
@@ -43,7 +39,7 @@ module.exports = {
               url: songInfo.videoDetails.video_url,
               duration: songInfo.videoDetails.lengthSeconds
             };
-          } catch (error) {
+          } catch (error: any) {
             console.error(error);
             message.reply(error.message).catch(console.error);
           }
@@ -55,7 +51,7 @@ module.exports = {
               url: trackInfo.permalink_url,
               duration: Math.ceil(trackInfo.duration / 1000)
             };
-          } catch (error) {
+          } catch (error: any) {
             console.error(error);
             message.reply(error.message).catch(console.error);
           }

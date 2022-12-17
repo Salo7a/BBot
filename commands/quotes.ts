@@ -1,10 +1,10 @@
-const { MessageEmbed } = require("discord.js");
+import { Message } from "discord.js";
 
 module.exports = {
   name: "quote",
   aliases: ["quote"],
   description: "Random Quote",
-  execute(message) {
+  execute(message: Message) {
     let quotes = ["Fight To Reach", "“You want the truth? You can't handle the truth!”", "“Bond. James Bond”",
       "“Show me the money!”", "“I'll be back.”", "“We'll always have Paris”", "“Houston, we have a problem.”",
       "“It's alive! It's alive!”", "“Valar Morghulis”", "“Say “hello” to my little friend!”", "“Elementary, my dear Watson.”",

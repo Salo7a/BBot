@@ -2,7 +2,7 @@
   "name": "bbot",
   "version": "0.5.0",
   "description": "Discord Multi-Purpose Bot Based on EvoBot",
-  "main": "index.ts",
+  "main": "./dist/index.js",
   "private": true,
   "homepage": "https://github.com/Salo7a/BBot",
   "repository": "github:Salo7a/BBot",
@@ -12,7 +12,7 @@
   },
   "scripts": {
     "dev": "nodemon index.ts",
-    "start": "npm run build && node ./dist/index.js",
+    "start": "node ./dist/index.js",
     "startts": "ts-node index.ts",
     "build": "tsc --build",
     "prod": "npm run build && node ./dist/index.js",

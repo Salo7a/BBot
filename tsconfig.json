@@ -12,9 +12,10 @@
     "skipLibCheck": true,
     "importHelpers": true,
     "typeRoots": ["node_modules/@types"],
+    "types": ["node"],
     "sourceMap": true,
     "strictPropertyInitialization": false
   },
-  "include": ["./"],
+  "include": ["./", "./config.json", "./locales/*.json", "./sounds/*.mp3"],
   "exclude": ["/.github", "./dist", "./node_modules"]
 }

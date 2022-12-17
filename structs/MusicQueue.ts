@@ -34,8 +34,9 @@ export class MusicQueue {
   public volume = config.DEFAULT_VOLUME || 100;
   public loop = false;
   public muted = false;
-  public queueLock = false;
-  public readyLock = false;
+  public waitTimeout: NodeJS.Timeout;
+  private queueLock = false;
+  private readyLock = false;
 
   public constructor(options: QueueOptions) {
     Object.assign(this, options);
@@ -48,9 +49,10 @@ export class MusicQueue {
       if (newState.status === VoiceConnectionStatus.Disconnected) {
         if (newState.reason === VoiceConnectionDisconnectReason.WebSocketClose && newState.closeCode === 4014) {
           try {
-            await entersState(this.connection, VoiceConnectionStatus.Connecting, 5_000);
-          } catch {
-            this.connection.destroy();
+            this.stop();
+          } catch (e) {
+            console.log(e);
+            this.stop();
           }
         } else if (this.connection.rejoinAttempts < 5) {
           await wait((this.connection.rejoinAttempts + 1) * 5_000);
@@ -58,8 +60,6 @@ export class MusicQueue {
         } else {
           this.connection.destroy();
         }
-      } else if (newState.status === VoiceConnectionStatus.Destroyed) {
-        // this.stop();
       } else if (
         !this.readyLock &&
         (newState.status === VoiceConnectionStatus.Connecting || newState.status === VoiceConnectionStatus.Signalling)
@@ -68,7 +68,11 @@ export class MusicQueue {
         try {
           await entersState(this.connection, VoiceConnectionStatus.Ready, 20_000);
         } catch {
-          if (this.connection.state.status !== VoiceConnectionStatus.Destroyed) this.connection.destroy();
+          if (this.connection.state.status !== VoiceConnectionStatus.Destroyed) {
+            try {
+              this.connection.destroy();
+            } catch {}
+          }
         } finally {
           this.readyLock = false;
         }
@@ -83,7 +87,7 @@ export class MusicQueue {
           this.songs.shift();
         }
 
-        this.processQueue();
+        if (this.songs.length || this.resource) this.processQueue();
       } else if (oldState.status === AudioPlayerStatus.Buffering && newState.status === AudioPlayerStatus.Playing) {
         this.sendPlayingMessage(newState);
       }
@@ -101,33 +105,31 @@ export class MusicQueue {
   }
 
   public enqueue(...songs: Song[]) {
+    if (typeof this.waitTimeout !== "undefined") clearTimeout(this.waitTimeout);
     this.songs = this.songs.concat(songs);
     this.processQueue();
   }
 
   public stop() {
-    this.queueLock = true;
     this.loop = false;
     this.songs = [];
     this.player.stop();
-    bot.queues.delete(this.message.guild!.id);
 
     !config.PRUNING && this.textChannel.send(i18n.__("play.queueEnded")).catch(console.error);
 
-    setTimeout(() => {
-      if (
-        this.player.state.status !== AudioPlayerStatus.Idle ||
-        this.connection.state.status === VoiceConnectionStatus.Destroyed
-      )
-        return;
-
-      this.connection.destroy();
+    this.waitTimeout = setTimeout(() => {
+      if (this.connection.state.status !== VoiceConnectionStatus.Destroyed) {
+        try {
+          this.connection.destroy();
+        } catch {}
+      }
+      bot.queues.delete(this.message.guild!.id);
 
       !config.PRUNING && this.textChannel.send(i18n.__("play.leaveChannel"));
-    }, 100);
+    }, config.STAY_TIME * 1000);
   }
 
-  private async processQueue(): Promise<void> {
+  public async processQueue(): Promise<void> {
     if (this.queueLock || this.player.state.status !== AudioPlayerStatus.Idle) {
       return;
     }

@@ -4,7 +4,7 @@
 
 
 # 🤖 BBot (A Random Discord Bot)
-> BBot is a Discord Multi-Purpose Bot Based on EvoBot
+> BBot is a Multi-Purpose Discord Bot Based on EvoBot
 
 ## Requirements
 

@@ -1,12 +1,11 @@
-const fetch = require("node-fetch");
-const { MessageEmbed } = require("discord.js");
+import { Message, MessageEmbed } from "discord.js";
 
 module.exports = {
   name: "advice",
   cooldown: 1,
   aliases: ["ad", "ghasan", "a3mleh"],
   description: "Contacts the spirits to get you an advice",
-  async execute(message, args) {
+  async execute(message: Message, args: any) {
     fetch("https://api.adviceslip.com/advice")
       .then(res => res.json())
       .then(json => {
@@ -15,6 +14,7 @@ module.exports = {
           .setAuthor("A Spirit", "https://i.imgur.com/GctQAoS.png")
           .setDescription(json.slip.advice)
           .setTimestamp();
+        // @ts-ignore
         message.channel.send(embed);
         return;
       })

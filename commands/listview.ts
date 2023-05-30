@@ -1,7 +1,7 @@
 import { Message } from "discord.js";
 
 const { MessageEmbed } = require("discord.js");
-const { findPlaylist } = require("../include/PlaylistFunctions");
+const { findPlaylist, findAllPlaylists } = require("../include/PlaylistFunctions");
 
 module.exports = {
   name: "ViewPlaylists",
@@ -28,10 +28,15 @@ module.exports = {
         .setThumbnail(message.guild!.iconURL())
         .setColor("#F8AA2A")
         .setTimestamp();
-      let lists = await Playlist.find();
-      for (let list of lists) {
-        embed.addField(list.Name, `${list.Songs.length} Songs`);
+      let lists = await findAllPlaylists();
+      if (lists) {
+        for (let list of lists) {
+          embed.addField(list.Name, `${list.Songs.length} Songs`);
+        }
+      } else  {
+        embed.addField("None", `None`);
       }
+
       message.channel.send(embed);
     }
   }

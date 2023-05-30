@@ -1,12 +1,9 @@
-const { TENOR_API } = require("../util/EvobotUtil");
-const fetch = require("node-fetch");
-
 module.exports = {
   name: "Gif",
   cooldown: 1,
   aliases: ["gif"],
   description: "Get a random gif",
-  async execute(message, args) {
+  async execute(message: { reply: (arg0: string) => Promise<any>; channel: { send: (arg0: string) => void; }; }, args: any[]) {
     if (!args[0]) {
       return message.reply(`You have to enter a search query`).catch(console.error);
     }

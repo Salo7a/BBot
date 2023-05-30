@@ -1,12 +1,9 @@
-const fetch = require("node-fetch");
-const { MessageEmbed } = require("discord.js");
-
 module.exports = {
   name: "Motivation",
   cooldown: 1,
   aliases: ["motivate"],
   description: "Get a random motivational quote!",
-  async execute(message, args) {
+  async execute(message: { channel: { send: (arg0: string) => void; }; }, args: any) {
     fetch("https://type.fit/api/quotes")
       .then(res => res.json())
       .then(json => {

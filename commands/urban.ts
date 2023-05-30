@@ -1,12 +1,10 @@
-const fetch = require("node-fetch");
-const { MessageEmbed } = require("discord.js");
 
 module.exports = {
   name: "Urban",
   cooldown: 1,
   aliases: ["urban"],
   description: "Get Urban Dictionary Definition",
-  async execute(message, args) {
+  async execute(message: { channel: { send: (arg0: string) => void; }; }, args: any[]) {
     let text = args.join(" ");
     fetch(`https://api.urbandictionary.com/v0/define?term=${text}`)
       .then(res => res.json())

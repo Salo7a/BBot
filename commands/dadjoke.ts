@@ -1,12 +1,9 @@
-const fetch = require("node-fetch");
-const { MessageEmbed } = require("discord.js");
-
 module.exports = {
   name: "DadJoke",
   cooldown: 1,
   aliases: ["djoke", "joke"],
   description: "Your Dose of Weird Dad Jokes!",
-  async execute(message, args) {
+  async execute(message: { channel: { send: (arg0: string) => void; }; }, args: any) {
     fetch("https://icanhazdadjoke.com/slack")
       .then(res => res.json())
       .then(json => {

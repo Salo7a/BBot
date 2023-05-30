@@ -1,12 +1,11 @@
-const fetch = require("node-fetch");
-const { MessageEmbed } = require("discord.js");
+import { Message, MessageEmbed } from "discord.js";
 
 module.exports = {
   name: "affirmation",
   cooldown: 1,
   aliases: ["affirm", "sad", "matfi", "refa3y"],
   description: "Ignites your soul with tailored affirmations!",
-  async execute(message, args) {
+  async execute(message: Message, args: any) {
     fetch("https://www.affirmations.dev/")
       .then(res => res.json())
       .then(json => {
@@ -15,6 +14,7 @@ module.exports = {
           .setAuthor("Sl7", "https://i.imgur.com/7524jhl.gif")
           .setDescription(json.affirmation)
           .setTimestamp();
+        // @ts-ignore
         message.channel.send(embed);
         return;
       })

@@ -1,12 +1,9 @@
-const fetch = require("node-fetch");
-const { MessageEmbed } = require("discord.js");
-
 module.exports = {
   name: "fortune",
   cooldown: 1,
   aliases: ["fortune"],
   description: "Gets YOU a fortune cookie!",
-  async execute(message, args) {
+  async execute(message: { channel: { send: (arg0: string) => void; }; }, args: any) {
     fetch("http://yerkee.com/api/fortune")
       .then(res => res.json())
       .then(json => {

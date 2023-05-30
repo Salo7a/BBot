@@ -11,8 +11,12 @@ const Playlist = mongoose.model("Playlist", PlaylistSchema, "Playlist");
 const connector = mongoose.connect(MONGODB_CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true });
 
 
-function findPlaylist(Name: any) {
-  return Playlist.findOne({ Name });
+async function findPlaylist(Name: any) {
+  return await Playlist.findOne({ Name });
+}
+
+async function findAllPlaylists() {
+  return await Playlist.find();
 }
 
 module.exports = {
@@ -29,6 +33,6 @@ module.exports = {
       }).save();
     }
 
-  }
-
+  },
+  findAllPlaylists
 };

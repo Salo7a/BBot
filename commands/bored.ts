@@ -1,4 +1,3 @@
-const fetch = require("node-fetch");
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
@@ -6,7 +5,7 @@ module.exports = {
   cooldown: 1,
   aliases: ["bored"],
   description: "Get a random thing to do",
-  async execute(message, args) {
+  async execute(message: { channel: { send: (arg0: string) => void; }; }, args: any) {
     fetch("https://www.boredapi.com/api/activity?participants=1")
       .then(res => res.json())
       .then(json => {

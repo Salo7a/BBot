@@ -11,11 +11,14 @@ module.exports = {
       .then(json => {
         const embed = new MessageEmbed()
           .setColor("#403B3A")
-          .setAuthor("Sl7", "https://i.imgur.com/7524jhl.gif")
+          .setAuthor({
+            name: "Sl7",
+            iconURL: "https://i.imgur.com/7524jhl.gif"
+          })
           .setDescription(json.affirmation)
           .setTimestamp();
         // @ts-ignore
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
         return;
       })
       .catch(err => {

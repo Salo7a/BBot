@@ -21,7 +21,7 @@ module.exports = {
         console.log(`${args[0]} ${i + 1} - ${list.Songs[i].title}`);
         embed.addField(`${i + 1} - ${list.Songs[i].title}`, list.Songs[i].duration);
       }
-      message.channel.send(embed);
+      message.channel.send({ embeds: [embed] });
     } else {
       const embed = new MessageEmbed()
         .setTitle(`All Playlists`)
@@ -37,7 +37,7 @@ module.exports = {
         embed.addField("None", `None`);
       }
 
-      message.channel.send(embed);
+      message.channel.send({ embeds: [embed] });
     }
   }
 };

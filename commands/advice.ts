@@ -1,4 +1,4 @@
-import { Message, MessageEmbed } from "discord.js";
+import { Message, MessageEmbed  } from "discord.js";
 
 module.exports = {
   name: "advice",
@@ -11,11 +11,10 @@ module.exports = {
       .then(json => {
         const embed = new MessageEmbed()
           .setColor("#403B3A")
-          .setAuthor("A Spirit", "https://i.imgur.com/GctQAoS.png")
+          .setAuthor({name: "A Spirit", iconURL: "https://i.imgur.com/GctQAoS.png"})
           .setDescription(json.slip.advice)
           .setTimestamp();
-        // @ts-ignore
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
         return;
       })
       .catch(err => {

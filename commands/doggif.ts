@@ -1,3 +1,6 @@
+// @ts-ignore
+const { TENOR_API } = require("../util/EvobotUtil");
+
 module.exports = {
   name: "DogGif",
   cooldown: 1,

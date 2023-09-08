@@ -14,13 +14,13 @@ module.exports = {
       .then((json: { value: any; appeared_at: any; }) => {
         const embed = new MessageEmbed()
           .setColor("#BB7D61")
-          .setAuthor(
-            "Donald Trump",
-            "https://www.whitehouse.gov/wp-content/uploads/2017/11/President-Trump-Official-Portrait-200x200.jpg"
-          )
+          .setAuthor({
+            name: "Donald Trump",
+            iconURL: "https://www.whitehouse.gov/wp-content/uploads/2017/11/President-Trump-Official-Portrait-200x200.jpg"
+          })
           .setDescription(json.value)
           .setTimestamp(json.appeared_at);
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
       })
       .catch((err: any) => {
         message.channel.send("Failed to deliver quote :sob:");

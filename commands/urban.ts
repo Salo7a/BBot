@@ -1,10 +1,11 @@
+import { Message, MessageEmbed } from "discord.js";
 
 module.exports = {
   name: "Urban",
   cooldown: 1,
   aliases: ["urban"],
   description: "Get Urban Dictionary Definition",
-  async execute(message: { channel: { send: (arg0: string) => void; }; }, args: any[]) {
+  async execute(message: Message, args: any[]) {
     let text = args.join(" ");
     fetch(`https://api.urbandictionary.com/v0/define?term=${text}`)
       .then(res => res.json())
@@ -12,18 +13,18 @@ module.exports = {
         const embed = new MessageEmbed()
           .setColor("#BB7D61")
           .setTitle(`${text}`)
-          .setAuthor(
-            "Urban Dictionary",
-            "https://i.imgur.com/vdoosDm.png",
-            "https://urbandictionary.com"
-          )
+          .setAuthor({
+            name: "Urban Dictionary",
+            iconURL: "https://i.imgur.com/vdoosDm.png",
+            url: "https://urbandictionary.com"
+          })
           .setDescription(
             `*${json.list[Math.floor(Math.random() * 1)].definition}*`
           )
           .setURL(json.list[0].permalink)
           .setTimestamp()
           .setFooter("Powered by UrbanDictionary", "");
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
         return;
       })
       .catch(() => {

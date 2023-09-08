@@ -1,18 +1,23 @@
+import { Message, MessageEmbed } from "discord.js";
+
 module.exports = {
   name: "fortune",
   cooldown: 1,
   aliases: ["fortune"],
   description: "Gets YOU a fortune cookie!",
-  async execute(message: { channel: { send: (arg0: string) => void; }; }, args: any) {
+  async execute(message: Message, args: any) {
     fetch("http://yerkee.com/api/fortune")
       .then(res => res.json())
       .then(json => {
         const embed = new MessageEmbed()
           .setColor("#F4D190")
-          .setAuthor("An Old Chinese Man Says", "https://i.imgur.com/58wIjK0.png")
+          .setAuthor({
+            name: "An Old Chinese Man Says",
+            iconURL: "https://i.imgur.com/58wIjK0.png"
+          })
           .setDescription(json.fortune)
           .setTimestamp();
-        message.channel.send(embed);
+        message.channel.send({ embeds: [embed] });
         return;
       })
       .catch(err => {

@@ -1,5 +1,5 @@
 // @ts-ignore
-const { TENOR_API } = require("../util/EvobotUtil");
+const { TENOR_API } = require("../utils/config");
 
 module.exports = {
   name: "DogGif",

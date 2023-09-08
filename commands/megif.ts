@@ -1,5 +1,5 @@
 import { Message, MessageEmbed } from "discord.js";
-const { TENOR_API } = require("../util/EvobotUtil");
+const { TENOR_API } = require("../utils/config");
 
 module.exports = {
   name: "MassEffectGif",

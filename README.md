@@ -9,7 +9,7 @@
 ## Requirements
 
 1. Discord Bot Token **[Guide](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)**  
-1.1. Enable 'Message Content Intent' in Discord Developer Portal
+   1.1. Enable 'Message Content Intent' in Discord Developer Portal
 2. Node.js 16.11.0 or newer
 
 ## 🚀 Getting Started
@@ -32,7 +32,6 @@ Copy or Rename `config.json.example` to `config.json` and fill out the values:
 {
   "TOKEN": "",
   "MAX_PLAYLIST_SIZE": 10,
-  "PREFIX": "/",
   "PRUNING": false,
   "LOCALE": "en",
   "DEFAULT_VOLUME": 100,
@@ -51,8 +50,6 @@ docker run -e "TOKEN=<discord-token>" -e "YOUTUBE_API_KEY=<youtube-key>" eritisl
 ```
 
 ## 📝 Features & Commands
-
-> Note: The default prefix is '/'
 
 - 🎶 Play music from YouTube via url
 
@@ -106,7 +103,7 @@ Examples: `1` or `1,2,3`
 * Command Handler from [discordjs.guide](https://discordjs.guide/)
 * Media Controls via Reactions
 
-![reactions](https://i.imgur.com/9S7Omf9.png)
+![reactions](https://i.imgur.com/0hdUX1C.png)
 
 ## 🌎 Locales
 

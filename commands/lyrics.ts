@@ -1,17 +1,17 @@
-import { Message, MessageEmbed } from "discord.js";
+import { ChatInputCommandInteraction, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 import { i18n } from "../utils/i18n";
 // @ts-ignore
 import lyricsFinder from "lyrics-finder";
 import { bot } from "../index";
 
 export default {
-  name: "lyrics",
-  aliases: ["ly"],
-  description: i18n.__("lyrics.description"),
-  async execute(message: Message) {
-    const queue = bot.queues.get(message.guild!.id);
+  data: new SlashCommandBuilder().setName("lyrics").setDescription(i18n.__("lyrics.description")),
+  async execute(interaction: ChatInputCommandInteraction) {
+    const queue = bot.queues.get(interaction.guild!.id);
 
-    if (!queue || !queue.songs.length) return message.reply(i18n.__("lyrics.errorNotQueue")).catch(console.error);
+    if (!queue || !queue.songs.length) return interaction.reply(i18n.__("lyrics.errorNotQueue")).catch(console.error);
+
+    await interaction.reply("⏳ Loading...").catch(console.error);
 
     let lyrics = null;
     const title = queue.songs[0].title;
@@ -23,15 +23,12 @@ export default {
       lyrics = i18n.__mf("lyrics.lyricsNotFound", { title: title });
     }
 
-    let lyricsEmbed = new MessageEmbed()
+    let lyricsEmbed = new EmbedBuilder()
       .setTitle(i18n.__mf("lyrics.embedTitle", { title: title }))
-      .setDescription(lyrics)
+      .setDescription(lyrics.length >= 4096 ? `${lyrics.substr(0, 4093)}...` : lyrics)
       .setColor("#F8AA2A")
       .setTimestamp();
 
-    if (lyricsEmbed.description!.length >= 2048)
-      lyricsEmbed.description = `${lyricsEmbed.description!.substr(0, 2045)}...`;
-
-    return message.reply({ embeds: [lyricsEmbed] }).catch(console.error);
+    return interaction.editReply({ content: "", embeds: [lyricsEmbed] }).catch(console.error);
   }
 };

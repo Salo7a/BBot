@@ -1,24 +1,22 @@
-import { Message } from "discord.js";
-
-const ytdl = require("ytdl-core");
+import { Message, SlashCommandBuilder } from "discord.js";
+import { Song } from "../structs/Song";
 const scdl = require("soundcloud-downloader").default;
-const { findPlaylist } = require("../include/PlaylistFunctions");
+import { Playlist } from "../include/Playlist";
 
 module.exports = {
-  name: "Add To Playlist",
+  data: new SlashCommandBuilder().setName("listadd").setDescription("Adds Songs To A Custom Playlist"),
   cooldown: 10,
   aliases: ["listadd"],
   description: "Adds Songs To A Custom Playlist",
   async execute(message: Message, args: string[]) {
     const videoPattern = /^(https?:\/\/)?(www\.)?(m\.)?(youtube\.com|youtu\.?be)\/.+$/;
     const scRegex = /^https?:\/\/(soundcloud\.com)\/(.*)$/;
-    let list = await findPlaylist(args[0]);
+    // @ts-ignore
+    let list = await Playlist.findPlaylist(args[0]);
     if (!list) {
       try {
-        list = await new Playlist({
-          Name: args[0],
-          Songs: []
-        });
+        // @ts-ignore
+        list = await Playlist.FindOrCreate(args[0], []);
       } catch (error) {
         console.error(error);
         return message.reply("Playlist Doesn't Exist And Couldn't Be Created").catch(console.error);
@@ -33,12 +31,7 @@ module.exports = {
         let song = null;
         if (videoPattern.test(args[i])) {
           try {
-            songInfo = await ytdl.getInfo(args[i]);
-            song = {
-              title: songInfo.videoDetails.title,
-              url: songInfo.videoDetails.video_url,
-              duration: songInfo.videoDetails.lengthSeconds
-            };
+            song = await Song.from(args[i], args[i]);
           } catch (error: any) {
             console.error(error);
             message.reply(error.message).catch(console.error);

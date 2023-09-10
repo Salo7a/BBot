@@ -1,10 +1,10 @@
-import { Message } from "discord.js";
+import { Message, SlashCommandBuilder } from "discord.js";
 
 const fetch = require("node-fetch");
-const { MessageEmbed } = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
-  name: "trump",
+  data: new SlashCommandBuilder().setName("trump").setDescription("Get a random Trump quote!"),
   cooldown: 1,
   aliases: ["trump"],
   description: "Get a random Trump quote!",
@@ -12,7 +12,7 @@ module.exports = {
     fetch("https://api.tronalddump.io/random/quote")
       .then((res: { json: () => any; }) => res.json())
       .then((json: { value: any; appeared_at: any; }) => {
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setColor("#BB7D61")
           .setAuthor({
             name: "Donald Trump",

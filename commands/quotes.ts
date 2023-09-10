@@ -1,7 +1,7 @@
-import { Message } from "discord.js";
+import { Message, SlashCommandBuilder } from "discord.js";
 
 module.exports = {
-  name: "quote",
+  data: new SlashCommandBuilder().setName("quote").setDescription("Random Quote"),
   aliases: ["quote"],
   description: "Random Quote",
   execute(message: Message) {

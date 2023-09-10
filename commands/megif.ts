@@ -1,8 +1,8 @@
-import { Message, MessageEmbed } from "discord.js";
+import { Message, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 const { TENOR_API } = require("../utils/config");
 
 module.exports = {
-  name: "MassEffectGif",
+  data: new SlashCommandBuilder().setName("masseffect").setDescription("Sends a random Mass Effect GIF"),
   cooldown: 1,
   aliases: ["meg", "masseffect"],
   description: "Sends a random Mass Effect GIF",

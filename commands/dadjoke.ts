@@ -1,7 +1,7 @@
-import { Message, MessageEmbed } from "discord.js";
+import { Message, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 
 module.exports = {
-  name: "DadJoke",
+  data: new SlashCommandBuilder().setName("djoke").setDescription("Your Dose of Weird Dad Jokes!"),
   cooldown: 1,
   aliases: ["djoke", "joke"],
   description: "Your Dose of Weird Dad Jokes!",
@@ -9,7 +9,7 @@ module.exports = {
     fetch("https://icanhazdadjoke.com/slack")
       .then(res => res.json())
       .then(json => {
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setColor("#dbc496")
           .setAuthor({
             name: "A Wild Dad Appears",

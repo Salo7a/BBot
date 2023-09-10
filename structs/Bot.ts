@@ -17,6 +17,7 @@ import { config } from "../utils/config";
 import { i18n } from "../utils/i18n";
 import { MissingPermissionsException } from "../utils/MissingPermissionsException";
 import { MusicQueue } from "./MusicQueue";
+import mongoose from "mongoose";
 
 export class Bot {
   public readonly prefix = config.PREFIX;
@@ -29,10 +30,10 @@ export class Bot {
   public constructor(public readonly client: Client) {
     this.client.login(config.TOKEN);
 
-    this.client.on("ready", () => {
+    this.client.on("ready", async () => {
       console.log(`${this.client.user!.username} ready!`);
-
-      this.registerSlashCommands();
+      if (!mongoose.connection.readyState) await this.dbConnection();
+      await this.registerSlashCommands();
     });
 
     this.client.on("warn", (info) => console.log(info));
@@ -109,4 +110,15 @@ export class Bot {
       }
     });
   }
+
+  private async dbConnection(){
+    let MONGODB_CONNECTION_STRING = config.MONGODB_CONNECTION_STRING || process.env.MONGODB_CONNECTION_STRING || "";
+    await mongoose.connect(MONGODB_CONNECTION_STRING, {
+      autoIndex: true, // Don't build indexes "Production"
+      socketTimeoutMS: 30000,
+      autoCreate: true
+    }) ;
+    console.log("DB connected!");
+  }
+
 }

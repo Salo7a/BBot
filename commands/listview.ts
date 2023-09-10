@@ -1,43 +1,47 @@
-import { Message } from "discord.js";
-
-const { MessageEmbed } = require("discord.js");
-const { findPlaylist, findAllPlaylists } = require("../include/PlaylistFunctions");
+import { Message, SlashCommandBuilder, EmbedBuilder, ChatInputCommandInteraction } from "discord.js";
+import {Playlist} from "../include/Playlist";
 
 module.exports = {
-  name: "ViewPlaylists",
+  data: new SlashCommandBuilder().setName("listview").setDescription("Explore Saved Playlists").addStringOption((option) => option.setName("listname").setDescription("Playlist's name").setRequired(false)),
   cooldown: 10,
   aliases: ["listview"],
   description: "Explore Saved Playlists",
-  async execute(message: Message, args: string[]) {
-    if (args[0]) {
-      let list = await findPlaylist(args[0]);
-      if (!list) return message.reply("Couldn't Get Playlist").catch(console.error);
-      const embed = new MessageEmbed()
+  async execute(interaction: ChatInputCommandInteraction, queryOptionName = "listname") {
+    let playlistName = interaction.options.getString(queryOptionName);
+    if (playlistName) {
+      // @ts-ignore
+      let list = await Playlist.findPlaylist(playlistName);
+      if (!list) return interaction.reply("Couldn't Get Playlist").catch(console.error);
+      const embed = new EmbedBuilder()
         .setTitle(`${list.Name} Playlist`)
-        .setThumbnail(message.guild!.iconURL())
+        .setThumbnail(interaction.guild!.iconURL())
         .setColor("#F8AA2A")
         .setTimestamp();
       for (let i = 0; i < list.Songs.length; i++) {
-        console.log(`${args[0]} ${i + 1} - ${list.Songs[i].title}`);
-        embed.addField(`${i + 1} - ${list.Songs[i].title}`, list.Songs[i].duration);
+        console.log(`${playlistName} ${i + 1} - ${list.Songs[i].title}`);
+        if (i<=25)
+        embed.addFields({name: `${i + 1} - ${list.Songs[i].title}`, value: list.Songs[i].duration});
       }
-      message.channel.send({ embeds: [embed] });
+      interaction.channel!.send({ embeds: [embed] });
     } else {
-      const embed = new MessageEmbed()
+      const embed = new EmbedBuilder()
         .setTitle(`All Playlists`)
-        .setThumbnail(message.guild!.iconURL())
+        .setThumbnail(interaction.guild!.iconURL())
         .setColor("#F8AA2A")
         .setTimestamp();
-      let lists = await findAllPlaylists();
+      // @ts-ignore
+      let lists = await Playlist.findAllPlaylists();
       if (lists) {
+        let i = 0;
         for (let list of lists) {
-          embed.addField(list.Name, `${list.Songs.length} Songs`);
+          i++;
+          if (i <= 25) embed.addFields({name: list.Name, value: `${list.Songs.length} Songs`});
         }
       } else  {
-        embed.addField("None", `None`);
+        embed.addFields({name: "None", value: 'None'});
       }
 
-      message.channel.send({ embeds: [embed] });
+      interaction.reply({ embeds: [embed] });
     }
   }
 };

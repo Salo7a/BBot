@@ -1,7 +1,7 @@
-import { Message, MessageEmbed } from "discord.js";
+import { Message, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 
 module.exports = {
-  name: "affirmation",
+  data: new SlashCommandBuilder().setName("affirmation").setDescription("Ignites your soul with tailored affirmations!"),
   cooldown: 1,
   aliases: ["affirm", "sad", "matfi", "refa3y"],
   description: "Ignites your soul with tailored affirmations!",
@@ -9,7 +9,7 @@ module.exports = {
     fetch("https://www.affirmations.dev/")
       .then(res => res.json())
       .then(json => {
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setColor("#403B3A")
           .setAuthor({
             name: "Sl7",

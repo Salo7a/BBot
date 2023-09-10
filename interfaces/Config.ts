@@ -6,4 +6,7 @@ export interface Config {
   STAY_TIME: number;
   DEFAULT_VOLUME: number;
   LOCALE: string;
+  OWNER_ID: string;
+  MONGODB_CONNECTION_STRING: string;
+  TENOR_API: string;
 }

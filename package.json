@@ -21,14 +21,14 @@
   "dependencies": {
     "@discordjs/voice": "^0.16.0",
     "array-move": "^3.0.1",
-    "discord.js": "^14.11.0",
+    "discord.js": "^14.13.0",
     "dotenv": "^16.3.1",
     "ffmpeg-static": "^4.4.1",
     "i18n": "^0.15.1",
     "lyrics-finder": "^21.0.5",
-    "play-dl": "^1.9.6",
     "mongoose": "*",
     "node-fetch": "^2.6.1",
+    "play-dl": "^1.9.6",
     "soundcloud-downloader": "^0.2.3",
     "string-progressbar": "^1.0.4",
     "youtube-sr": "~4.3.0"

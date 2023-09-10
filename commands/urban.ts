@@ -1,7 +1,7 @@
-import { Message, MessageEmbed } from "discord.js";
+import { Message, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 
 module.exports = {
-  name: "Urban",
+  data: new SlashCommandBuilder().setName("urban").setDescription("Get Urban Dictionary Definition"),
   cooldown: 1,
   aliases: ["urban"],
   description: "Get Urban Dictionary Definition",
@@ -10,7 +10,7 @@ module.exports = {
     fetch(`https://api.urbandictionary.com/v0/define?term=${text}`)
       .then(res => res.json())
       .then(json => {
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setColor("#BB7D61")
           .setTitle(`${text}`)
           .setAuthor({
@@ -23,7 +23,7 @@ module.exports = {
           )
           .setURL(json.list[0].permalink)
           .setTimestamp()
-          .setFooter("Powered by UrbanDictionary", "");
+          .setFooter({ text: "Powered by UrbanDictionary" });
         message.channel.send({ embeds: [embed] });
         return;
       })

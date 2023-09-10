@@ -1,8 +1,8 @@
-import { Message, MessageEmbed } from "discord.js";
+import { Message, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 
 
 module.exports = {
-  name: "bored",
+  data: new SlashCommandBuilder().setName("bored").setDescription("Get a random thing to do"),
   cooldown: 1,
   aliases: ["bored"],
   description: "Get a random thing to do",
@@ -10,7 +10,7 @@ module.exports = {
     fetch("https://www.boredapi.com/api/activity?participants=1")
       .then(res => res.json())
       .then(json => {
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setColor("#6BA3FF")
           .setAuthor({
             name: "Well, You Could",

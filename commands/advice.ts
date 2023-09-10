@@ -1,7 +1,8 @@
-import { Message, MessageEmbed  } from "discord.js";
+import { Message, EmbedBuilder, SlashCommandBuilder } from "discord.js";
+import { i18n } from "../utils/i18n";
 
 module.exports = {
-  name: "advice",
+  data: new SlashCommandBuilder().setName("advice").setDescription("Contacts the spirits to get you an advice"),
   cooldown: 1,
   aliases: ["ad", "ghasan", "a3mleh"],
   description: "Contacts the spirits to get you an advice",
@@ -9,7 +10,7 @@ module.exports = {
     fetch("https://api.adviceslip.com/advice")
       .then(res => res.json())
       .then(json => {
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setColor("#403B3A")
           .setAuthor({name: "A Spirit", iconURL: "https://i.imgur.com/GctQAoS.png"})
           .setDescription(json.slip.advice)

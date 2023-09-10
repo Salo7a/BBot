@@ -1,7 +1,7 @@
-import { Message, MessageEmbed } from "discord.js";
+import { Message, EmbedBuilder, SlashCommandBuilder } from "discord.js";
 
 module.exports = {
-  name: "fortune",
+  data: new SlashCommandBuilder().setName("fortune").setDescription("Sends a fortune cookie!"),
   cooldown: 1,
   aliases: ["fortune"],
   description: "Gets YOU a fortune cookie!",
@@ -9,7 +9,7 @@ module.exports = {
     fetch("http://yerkee.com/api/fortune")
       .then(res => res.json())
       .then(json => {
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
           .setColor("#F4D190")
           .setAuthor({
             name: "An Old Chinese Man Says",

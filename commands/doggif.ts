@@ -1,8 +1,10 @@
 // @ts-ignore
+import { SlashCommandBuilder } from "discord.js";
+
 const { TENOR_API } = require("../utils/config");
 
 module.exports = {
-  name: "DogGif",
+  data: new SlashCommandBuilder().setName("dog").setDescription("Sends a random dog GIF"),
   cooldown: 1,
   aliases: ["dog", "dg"],
   description: "Sends a random dog GIF",

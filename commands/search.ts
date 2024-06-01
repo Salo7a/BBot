@@ -31,14 +31,14 @@ export default {
 
     try {
       results = await youtube.search(search, { limit: 10, type: "video" });
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
       interaction.editReply({ content: i18n.__("common.errorCommand") }).catch(console.error);
       return;
     }
 
     if (!results || !results[0]) {
-      interaction.editReply({ content: i18n.__("search.noResults") })
+      interaction.editReply({ content: i18n.__("search.noResults") });
       return;
     }
 

@@ -20,7 +20,7 @@ import { MusicQueue } from "./MusicQueue";
 import mongoose from "mongoose";
 
 export class Bot {
-  public readonly prefix = config.PREFIX;
+  public readonly prefix = "/";
   public commands = new Collection<string, Command>();
   public slashCommands = new Array<ApplicationCommandDataResolvable>();
   public slashCommandsMap = new Collection<string, Command>();
@@ -70,11 +70,13 @@ export class Bot {
       }
 
       const now = Date.now();
-      const timestamps: any = this.cooldowns.get(interaction.commandName);
+      const timestamps = this.cooldowns.get(interaction.commandName)!;
       const cooldownAmount = (command.cooldown || 1) * 1000;
 
-      if (timestamps.has(interaction.user.id)) {
-        const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
+      const timestamp = timestamps.get(interaction.user.id);
+
+      if (timestamp) {
+        const expirationTime = timestamp + cooldownAmount;
 
         if (now < expirationTime) {
           const timeLeft = (expirationTime - now) / 1000;

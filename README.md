@@ -46,7 +46,7 @@ Copy or Rename `config.json.example` to `config.json` and fill out the values:
 For those who would prefer to use our [Docker container](https://hub.docker.com/repository/docker/eritislami/evobot), you may provide values from `config.json` as environment variables.
 
 ```shell
-docker run -e "TOKEN=<discord-token>" -e "YOUTUBE_API_KEY=<youtube-key>" eritislami/evobot
+docker run -e "TOKEN=<discord-token>" eritislami/evobot
 ```
 
 ## 📝 Features & Commands
@@ -55,7 +55,7 @@ docker run -e "TOKEN=<discord-token>" -e "YOUTUBE_API_KEY=<youtube-key>" eritisl
 
 `/play https://www.youtube.com/watch?v=GLvohMXgcBo`
 
-* 🔎 Play music from YouTube via search query
+- 🔎 Play music from YouTube via search query
 
 `/play under the bridge red hot chili peppers`
 
@@ -78,7 +78,7 @@ Examples: `1` or `1,2,3`
 * 🔎 Play youtube playlists via search query
 
 `/playlist linkin park meteora`
-* Now Playing (/np)
+* Now Playing (/nowplaying)
 * Queue system (/queue, /q)
 * Loop / Repeat (/loop)
 * Shuffle (/shuffle)
@@ -101,9 +101,9 @@ Examples: `1` or `1,2,3`
 * Toggle pruning of bot messages (/pruning)
 * Help (/help, /h)
 * Command Handler from [discordjs.guide](https://discordjs.guide/)
-* Media Controls via Reactions
+* Media Controls via Buttons
 
-![reactions](https://i.imgur.com/0hdUX1C.png)
+![buttons](https://i.imgur.com/67TGY0c.png)
 
 ## 🌎 Locales
 
@@ -112,6 +112,8 @@ Currently available locales are:
 - English (en)
 - Arabic (ar)
 - Brazilian Portuguese (pt_br)
+- Bulgarian (bg)
+- Romanian (ro)
 - Czech (cs)
 - Dutch (nl)
 - French (fr)

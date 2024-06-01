@@ -5,6 +5,7 @@ import { config } from "./config";
 i18n.configure({
   locales: [
     "ar",
+    "bg",
     "cs",
     "de",
     "el",
@@ -21,6 +22,7 @@ i18n.configure({
     "nl",
     "pl",
     "pt_br",
+    "ro",
     "ru",
     "sv",
     "th",

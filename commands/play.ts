@@ -12,12 +12,7 @@ export default {
     .setDescription(i18n.__("play.description"))
     .addStringOption((option) => option.setName("song").setDescription("The song you want to play").setRequired(true)),
   cooldown: 3,
-  permissions: [
-    PermissionsBitField.Flags.Connect,
-    PermissionsBitField.Flags.Speak,
-    PermissionsBitField.Flags.AddReactions,
-    PermissionsBitField.Flags.ManageMessages
-  ],
+  permissions: [PermissionsBitField.Flags.Connect, PermissionsBitField.Flags.Speak],
   async execute(interaction: ChatInputCommandInteraction, input: string) {
     let argSongName = interaction.options.getString("song");
     if (!argSongName) argSongName = input;
@@ -52,7 +47,7 @@ export default {
     if (playlistPattern.test(url)) {
       await interaction.editReply("🔗 Link is playlist").catch(console.error);
 
-      return bot.slashCommandsMap.get("playlist")!.execute(interaction, 'song');
+      return bot.slashCommandsMap.get("playlist")!.execute(interaction, "song");
     }
 
     let song;
@@ -60,16 +55,18 @@ export default {
     try {
       song = await Song.from(url, url);
     } catch (error: any) {
+      console.error(error);
+
       if (error.name == "NoResults")
         return interaction
           .reply({ content: i18n.__mf("play.errorNoResults", { url: `<${url}>` }), ephemeral: true })
           .catch(console.error);
+
       if (error.name == "InvalidURL")
         return interaction
           .reply({ content: i18n.__mf("play.errorInvalidURL", { url: `<${url}>` }), ephemeral: true })
           .catch(console.error);
 
-      console.error(error);
       if (interaction.replied)
         return await interaction.editReply({ content: i18n.__("common.errorCommand") }).catch(console.error);
       else return interaction.reply({ content: i18n.__("common.errorCommand"), ephemeral: true }).catch(console.error);

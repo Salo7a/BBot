@@ -27,9 +27,9 @@
     "ffmpeg-static": "^4.4.1",
     "i18n": "^0.15.1",
     "lyrics-finder": "^21.0.5",
-    "play-dl": "^1.9.7",
     "mongoose": "*",
     "node-fetch": "^2.6.1",
+    "play-dl": "^1.9.7",
     "soundcloud-downloader": "^0.2.3",
     "string-progressbar": "^1.0.4",
     "youtube-sr": "~4.3.0"
@@ -38,7 +38,7 @@
     "@types/i18n": "^0.13.12",
     "@types/node": "^20.12.13",
     "cz-conventional-changelog": "^3.0.1",
-    "nodemon": "^2.0.22",
+    "nodemon": "^3.1.2",
     "prettier": "^3.2.5",
     "ts-node": "^10.9.2"
   },
